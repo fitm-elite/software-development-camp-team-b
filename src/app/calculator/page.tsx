@@ -1,10 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 export default function page() {
   const [preview, setPreview] = useState('');
 
+  const router = useRouter();
   function addNumber(text: string) {
     if ((preview.length == 0 && text != '0') || preview.length > 0) {
       setPreview((prev) => prev + text);
@@ -40,7 +42,15 @@ export default function page() {
   return (
     <div className="bg-[#3C3D37] flex flex-col justify-center h-screen w-full">
       <div className="bg-black flex justify-end items-center h-[5vh]">
-        <p className="mr-[1rem] text-white text-2xl">Setting</p>
+        <button
+          onClick={() => {
+            router.push('/setting');
+          }}
+          className="mr-[1rem] text-white text-2xl"
+        >
+          Setting
+        </button>
+        {/* <p ></p> */}
       </div>
       <div className="flex flex-col items-end justify-center h-[45vh]">
         <div className="text-5xl text-white mr-[1rem]">{preview}</div>

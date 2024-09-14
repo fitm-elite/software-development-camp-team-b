@@ -7,6 +7,9 @@ export default function page() {
   const [preview, setPreview] = useState('');
 
   const router = useRouter();
+  const [promptPayNumber, setPromptPayNumber] = useState(() => {
+    return localStorage.getItem('promptPayNumber') || '';
+  });
 
   const numberUiList: string[] = ['7', '8', '9', '4', '5', '6', '1', '2', '3'];
   function addNumber(text: string) {
@@ -40,7 +43,11 @@ export default function page() {
       console.error(error);
     }
   }
-
+  useEffect(() => {
+    if(!promptPayNumber){
+        router.push('/setting')
+    }
+  }, [promptPayNumber]);
   return (
     <div className="bg-[#3C3D37] flex flex-col justify-center h-screen w-full">
       <div className="bg-black flex justify-end items-center h-[5vh]">
@@ -110,7 +117,7 @@ export default function page() {
         <button onClick={() => addNumber('0')} className="btn-number">
           0
         </button>
-        <button className="bg-[#52913D] text-center text-5xl text-white font-bold w-[80%] h-[8vh] rounded-lg mt-[1rem] mb-[1rem] col-span-2">
+        <button onClick={()=> router.push(`/genqr/${calculate()}`)} className="bg-[#52913D] text-center text-5xl text-white font-bold w-[80%] h-[8vh] rounded-lg mt-[1rem] mb-[1rem] col-span-2">
           QR
         </button>
       </div>

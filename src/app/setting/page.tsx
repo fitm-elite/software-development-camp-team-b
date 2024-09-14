@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 type UserData = {
   promptPayNumber: string;
@@ -11,12 +11,16 @@ export default function Page() {
     register,
     handleSubmit,
     watch,
+    control,
+    getValues,
     formState: { errors },
   } = useForm<UserData>();
-  const onSubmit: SubmitHandler<UserData> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<UserData> = (data) => {
+    console.log(data);
+  }
   return (
     <>
-      <button className=" absolute bg-[#AC925A] py-2 px-3 ml-3 mt-3 rounded">
+      <button className="absolute bg-[#AC925A] py-2 px-3 ml-3 mt-3 rounded">
         <svg
           width="47"
           height="16"
@@ -40,11 +44,18 @@ export default function Page() {
               เลขพร้อมเพย์
             </label>
             <input
-              {...register("promptPayNumber", { required: true })}
+            type="number"
+              {...register("promptPayNumber", {
+                required: "กรุณากรอกเลขพร้อมเพย์",
+                pattern: {
+                  value: /^[0-9]{10}$|^[0-9]{13}$/, 
+                  message: "เลขพร้อมเพย์ต้องเป็นตัวเลข 10 หรือ 13 หลัก",  
+                },
+              })}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
             {errors.promptPayNumber && (
-              <p className="text-red-500 text-xs italic mt-4">Please Enter</p>
+              <p className="text-red-500 text-xs italic mt-4">{errors.promptPayNumber.message}</p>
             )}
           </div>
           <div className="flex items-center justify-center">

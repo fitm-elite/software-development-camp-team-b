@@ -7,6 +7,8 @@ export default function page() {
   const [preview, setPreview] = useState('');
 
   const router = useRouter();
+
+  const numberUiList: number[] = [7, 8, 9, 4, 5, 6, 1, 2, 3];
   function addNumber(text: string) {
     if ((preview.length == 0 && text != '0') || preview.length > 0) {
       setPreview((prev) => prev + text);
@@ -21,13 +23,13 @@ export default function page() {
     }
   }
 
-  function isValidPreview(preview: string): boolean {
+  function isValidPreview(): boolean {
     return /^[0-9*+]+$/.test(preview);
   }
 
   function calculate() {
     try {
-      if (!isValidPreview(preview)) {
+      if (!isValidPreview()) {
         return;
       }
       if (preview.at(-1) == '*' || preview.at(-1) == '+') {
@@ -35,7 +37,7 @@ export default function page() {
       }
       return eval(preview);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -93,34 +95,16 @@ export default function page() {
         </button>
       </div>
 
-      <div className=" grid grid-cols-3 place-items-center gap-2">
-        <button onClick={() => addNumber('7')} className="btn-number">
-          7
-        </button>
-        <button onClick={() => addNumber('8')} className="btn-number">
-          8
-        </button>
-        <button onClick={() => addNumber('9')} className="btn-number">
-          9
-        </button>
-        <button onClick={() => addNumber('4')} className="btn-number">
-          4
-        </button>
-        <button onClick={() => addNumber('5')} className="btn-number">
-          5
-        </button>
-        <button onClick={() => addNumber('6')} className="btn-number">
-          6
-        </button>
-        <button onClick={() => addNumber('1')} className="btn-number">
-          1
-        </button>
-        <button onClick={() => addNumber('2')} className="btn-number">
-          2
-        </button>
-        <button onClick={() => addNumber('3')} className="btn-number">
-          3
-        </button>
+      <div className="grid grid-cols-3 place-items-center gap-2">
+        {numberUiList.map((value, index) => (
+          <button
+            key={index}
+            onClick={() => addNumber(value.toString())}
+            className="btn-number"
+          >
+            {value}
+          </button>
+        ))}
       </div>
       <div className=" grid grid-cols-3 place-items-center">
         <button onClick={() => addNumber('0')} className="btn-number">

@@ -8,10 +8,10 @@ export default function page() {
 
   const router = useRouter();
 
-  const numberUiList: number[] = [7, 8, 9, 4, 5, 6, 1, 2, 3];
+  const numberUiList: string[] = ['7', '8', '9', '4', '5', '6', '1', '2', '3'];
   function addNumber(text: string) {
     if ((preview.length == 0 && text != '0') || preview.length > 0) {
-      setPreview((prev) => prev + text);
+      setPreview((prev) => `${prev}${text}`);
     }
   }
   function addOperator(text: string) {
@@ -99,7 +99,7 @@ export default function page() {
         {numberUiList.map((value, index) => (
           <button
             key={index}
-            onClick={() => addNumber(value.toString())}
+            onClick={() => addNumber(value)}
             className="btn-number"
           >
             {value}

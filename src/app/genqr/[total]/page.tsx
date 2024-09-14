@@ -1,16 +1,26 @@
 'use client';
-import React, { useState } from 'react';
-import { useParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function page() {
   const params = useParams<{ total: string }>();
+
+  const router = useRouter()
+
+
   const [promptPayNumber, setPromptPayNumber] = useState(() => {
     return localStorage.getItem('promptPayNumber') || '';
   });
 
+  useEffect(() => {
+    if(!promptPayNumber){
+        router.push('/setting')
+    }
+  }, [promptPayNumber]);
+
   return (
     <>
-      <button className="absolute bg-[#AC925A] py-2 px-3 ml-3 mt-3 rounded">
+      <button onClick={()=>{router.push('/calculator')}} className="absolute bg-[#AC925A] py-2 px-3 ml-3 mt-3 rounded">
         <svg
           width="47"
           height="16"

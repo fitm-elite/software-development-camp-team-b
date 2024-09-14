@@ -10,6 +10,8 @@ export default function Home() {
     const promptPay =  localStorage.getItem('promptPayNumber')
     if(!promptPay){
       router.push('/setting')
+    }else{
+      router.push('/calculator')
     }
   }, []);
 

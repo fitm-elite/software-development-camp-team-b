@@ -1,18 +1,17 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Home() {
   const router = useRouter();
-  const [promptPayNumber] = useState(() => {
-    return localStorage.getItem('promptPayNumber') || '';
-  });
+
   useEffect(() => {
-    if(promptPayNumber){
-      router.push('/calculator')
-    }else{
+    const promptPay =  localStorage.getItem('promptPayNumber')
+    if(!promptPay){
       router.push('/setting')
+    }else{
+      router.push('/calculator')
     }
   }, []);
 

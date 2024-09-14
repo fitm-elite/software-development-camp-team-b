@@ -7,9 +7,7 @@ export default function Page() {
   const [preview, setPreview] = useState('');
 
   const router = useRouter();
-  const [promptPayNumber] = useState(() => {
-    return localStorage.getItem('promptPayNumber') || '';
-  });
+  // const [promptPayNumber, setPromptPayNumber] = useState(''s)
   
 
   const numberUiList: string[] = ['7', '8', '9', '4', '5', '6', '1', '2', '3'];
@@ -44,11 +42,13 @@ export default function Page() {
       console.error(error);
     }
   }
+
   useEffect(() => {
-    if(!promptPayNumber){
-        router.push('/setting')
+    const promptPay =  localStorage.getItem('promptPayNumber')
+    if(!promptPay){
+      router.push('/setting')
     }
-  }, [promptPayNumber]);
+  }, []);
 
 
 
@@ -122,8 +122,8 @@ export default function Page() {
           0
         </button>
 
-        <button disabled={preview == ''} onClick={()=> router.push(`/genqr/${calculate()}`)} className={`bg-[${preview == '' ? '#A8A8A8' : '#52913D'}] text-center text-5xl text-white font-bold w-[80%] h-[8vh] rounded-lg mt-[1rem] mb-[1rem] col-span-2 `}>
-          {preview == '' ? '' : 'QR'}
+        <button disabled={preview == ''} onClick={()=> router.push(`/genqr/${calculate()}`)} className={`${preview == '' ? 'bg-gray-400' : 'bg-green-500'}  text-center text-5xl text-white font-bold w-[80%] h-[8vh] rounded-lg mt-[1rem] mb-[1rem] col-span-2 `}>
+         QR
         </button>
       </div>
     </div>

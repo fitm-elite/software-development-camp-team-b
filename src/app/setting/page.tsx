@@ -1,26 +1,54 @@
 "use client";
 
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import Swal from "sweetalert2";
 
 type UserData = {
   promptPayNumber: string;
 };
 
+const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+  const input = e.target as HTMLInputElement;
+  input.value = input.value.replace(/[^0-9]/g, "");
+};
+
 export default function Page() {
+
+  const router = useRouter()
+  const [savedNumber, setSavedNumber] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
-    watch,
-    control,
-    getValues,
     formState: { errors },
+    setValue,
   } = useForm<UserData>();
+
+  useEffect(() => {
+    const storedNumber = localStorage.getItem("promptPayNumber");
+    if (storedNumber) {
+      setSavedNumber(storedNumber);
+      setValue("promptPayNumber", storedNumber);
+    }
+  }, [setValue]);
+
+  console.log(savedNumber);
+
   const onSubmit: SubmitHandler<UserData> = (data) => {
-    console.log(data);
+    localStorage.setItem("promptPayNumber", data.promptPayNumber);
+    setSavedNumber(data.promptPayNumber);
+    Swal.fire({
+      title: "บันทึกข้อมูลสำเร็จ",
+      icon: "success",
+      confirmButtonText: "ตกลง",
+    });
   }
+
   return (
     <>
-      <button className="absolute bg-[#AC925A] py-2 px-3 ml-3 mt-3 rounded">
+      <button onClick={() => router.push('/calculator')} className="absolute bg-[#AC925A] py-2 px-3 ml-3 mt-3 rounded">
         <svg
           width="47"
           height="16"
@@ -40,11 +68,12 @@ export default function Page() {
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2  text-center text-4xl mb-5">
+            <label className="block text-gray-700 font-bold text-center text-4xl mb-5">
               เลขพร้อมเพย์
             </label>
             <input
-            type="number"
+              type="text"
+              inputMode="numeric"
               {...register("promptPayNumber", {
                 required: "กรุณากรอกเลขพร้อมเพย์",
                 pattern: {
@@ -52,6 +81,7 @@ export default function Page() {
                   message: "เลขพร้อมเพย์ต้องเป็นตัวเลข 10 หรือ 13 หลัก",  
                 },
               })}
+              onInput={handleInput}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
             {errors.promptPayNumber && (
@@ -61,7 +91,7 @@ export default function Page() {
           <div className="flex items-center justify-center">
             <button
               type="submit"
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-12 rounded focus:outline-none focus:shadow-outline text-4xl"
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-12 rounded focus:outline-none focus:shadow-outline text-2xl"
             >
               บันทึก
             </button>

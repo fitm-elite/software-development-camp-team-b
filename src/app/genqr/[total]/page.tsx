@@ -8,15 +8,17 @@ export default function Page() {
   const router = useRouter()
 
 
-  const [promptPayNumber] = useState(() => {
-    return localStorage.getItem('promptPayNumber') || '';
-  });
+  const [promptPayNumber,setPromptPayNumber] = useState('');
 
+ 
   useEffect(() => {
-    if(!promptPayNumber){
-        router.push('/setting')
+    const promptPay =  localStorage.getItem('promptPayNumber')
+    if(!promptPay){
+      router.push('/setting')
+    }else{
+      setPromptPayNumber(promptPay)
     }
-  }, [promptPayNumber]);
+  }, []);
 
   return (
     <>

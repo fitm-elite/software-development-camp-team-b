@@ -110,7 +110,7 @@ export default function page() {
         <button onClick={() => addNumber('0')} className="btn-number">
           0
         </button>
-        <button className="bg-[#52913D] text-center text-5xl text-white font-bold w-[80%] h-[8vh] rounded-lg mt-[1rem] mb-[1rem] col-span-2">
+        <button onClick={()=> router.push(`/genqr/${calculate()}`)} className="bg-[#52913D] text-center text-5xl text-white font-bold w-[80%] h-[8vh] rounded-lg mt-[1rem] mb-[1rem] col-span-2">
           QR
         </button>
       </div>

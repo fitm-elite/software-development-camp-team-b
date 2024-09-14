@@ -9,6 +9,11 @@ type UserData = {
   promptPayNumber: string;
 };
 
+const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+  const input = e.target as HTMLInputElement;
+  input.value = input.value.replace(/[^0-9]/g, "");
+};
+
 export default function Page() {
 
   const router = useRouter()
@@ -40,6 +45,7 @@ export default function Page() {
       confirmButtonText: "ตกลง",
     });
   }
+
   return (
     <>
       <button onClick={() => router.push('/calculator')} className="absolute bg-[#AC925A] py-2 px-3 ml-3 mt-3 rounded">
@@ -75,10 +81,7 @@ export default function Page() {
                   message: "เลขพร้อมเพย์ต้องเป็นตัวเลข 10 หรือ 13 หลัก",  
                 },
               })}
-              onInput={(e) => {
-                const input = e.target as HTMLInputElement; 
-                input.value = input.value.replace(/[^0-9]/g, ""); 
-              }}
+              onInput={handleInput}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
             {errors.promptPayNumber && (

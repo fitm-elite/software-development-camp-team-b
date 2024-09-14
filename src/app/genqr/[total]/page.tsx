@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
-export default function page() {
+export default function Page() {
   const params = useParams<{ total: string }>();
 
   const router = useRouter()
 
 
-  const [promptPayNumber, setPromptPayNumber] = useState(() => {
+  const [promptPayNumber] = useState(() => {
     return localStorage.getItem('promptPayNumber') || '';
   });
 

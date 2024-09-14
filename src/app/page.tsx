@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
   const router = useRouter();
-  const [promptPayNumber, setPromptPayNumber] = useState(() => {
+  const [promptPayNumber] = useState(() => {
     return localStorage.getItem('promptPayNumber') || '';
   });
   useEffect(() => {

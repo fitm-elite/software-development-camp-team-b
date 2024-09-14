@@ -7,6 +7,9 @@ export default function page() {
   const [preview, setPreview] = useState('');
 
   const router = useRouter();
+  const [promptPayNumber, setPromptPayNumber] = useState(() => {
+    return localStorage.getItem('promptPayNumber') || '';
+  });
 
   const numberUiList: string[] = ['7', '8', '9', '4', '5', '6', '1', '2', '3'];
   function addNumber(text: string) {
@@ -40,7 +43,11 @@ export default function page() {
       console.error(error);
     }
   }
-
+  useEffect(() => {
+    if(!promptPayNumber){
+        router.push('/setting')
+    }
+  }, [promptPayNumber]);
   return (
     <div className="bg-[#3C3D37] flex flex-col justify-center h-screen w-full">
       <div className="bg-black flex justify-end items-center h-[5vh]">
